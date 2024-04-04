@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/screens/my_home_page.dart';
+import 'package:flutter_project/screens/profile.dart';
+import 'package:flutter_project/screens/settings.dart';
 
 void main() {
   runApp(const MainApp());
