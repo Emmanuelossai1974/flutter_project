@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -26,10 +25,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'road',
       'trees'
     ];
-
     double Width = MediaQuery.of(context).size.width;
     double Height = MediaQuery.of(context).size.height;
-
     List<Widget> gridStuff = List.generate(6, (index) {
       return Container(
         width: Width,
@@ -37,29 +34,33 @@ class _MyHomePageState extends State<MyHomePage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           image: DecorationImage(
-              image: AssetImage(imageList[index]), fit: BoxFit.cover),
+            image: AssetImage(imageList[index]),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Center(
-          child: Text(imageTitle[index],
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 5,
-                      color: Colors.black.withOpacity(0.5),
-                      offset: Offset(5, 5),
-                    )
-                  ])),
+          child: Text(
+            imageTitle[index],
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  blurRadius: 5,
+                  color: Colors.black.withOpacity(0.5),
+                  offset: Offset(5, 5),
+                ),
+              ],
+            ),
+          ),
         ),
       );
     });
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
@@ -69,15 +70,57 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 60,
             ),
-            ElevatedButton(
-              onPressed: null,
+            TextButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Alert'),
+                        content: Text('This is an alert dialog.'),
+                        actions: [
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    });
+              },
               child: Icon(Icons.notification_add, color: Colors.white),
             ),
             Icon(Icons.settings),
           ],
         ),
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+          child: ListView(
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Home'),
+            onTap: () {
+              Navigator.pushNamed(context, '/');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
+        ],
+      )),
       body: Container(
         decoration: const BoxDecoration(
           color: Colors.red,
@@ -96,23 +139,41 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             }),
       ),
-      bottomNavigationBar:
-          BottomNavigationBar(showUnselectedLabels: true, items: const [
-        BottomNavigationBarItem(
-            backgroundColor: Colors.red, icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(
-            backgroundColor: Colors.red,
-            icon: Icon(Icons.search),
-            label: 'Search'),
-        BottomNavigationBarItem(
-            backgroundColor: Colors.red,
-            icon: Icon(Icons.settings),
-            label: 'Settings'),
-        BottomNavigationBarItem(
-            backgroundColor: Colors.red,
-            icon: Icon(Icons.person),
-            label: 'Profile'),
-      ]),
+      bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: true,
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(
+              backgroundColor: Colors.red,
+              icon: Icon(Icons.home),
+              label: 'Home'),
+          BottomNavigationBarItem(
+              backgroundColor: Colors.red,
+              icon: Icon(Icons.search),
+              label: 'Search'),
+          BottomNavigationBarItem(
+              backgroundColor: Colors.red,
+              icon: Icon(Icons.settings),
+              label: 'Settings'),
+          BottomNavigationBarItem(
+              backgroundColor: Colors.red,
+              icon: Icon(Icons.person),
+              label: 'Profile'),
+        ],
+        onTap: (int index) {
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/settings');
+              break;
+            case 3:
+              Navigator.pushNamed(context, '/profile');
+              break;
+          }
+        },
+      ),
     );
   }
 }
